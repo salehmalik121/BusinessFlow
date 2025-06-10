@@ -11,7 +11,12 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
-
+import { GenerateInvoiceComponent } from '../../../../componants/generate-invoice/generate-invoice.component';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 @Component({
   selector: 'app-dashboard',
   imports: [CommonModule],
@@ -71,6 +76,10 @@ export class DashboardComponent {
     }
   ];
 
+  private _snackBar = inject(MatSnackBar);
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
   readonly dialog = inject(MatDialog)
 
   constructor(private dataSharing : DataSharingService){
@@ -80,6 +89,7 @@ export class DashboardComponent {
   ngOnInit(){
     this.dataSharing.qoutes$.subscribe((value)=>{
       let revenue = 0;
+      console.log(value);
       value.forEach(item=>{
         if(item.status != 'pending'){
           revenue += item.amount;
@@ -129,23 +139,35 @@ export class DashboardComponent {
 
   generateInvoice(): void {
     console.log('Generating invoice...');
-    // Implement invoice generation logic
+    const dialogRef = this.dialog.open(GenerateInvoiceComponent, {
+      
+    });
   }
 
   serviceReport(): void {
     console.log('Opening service report...');
     // Implement service report logic
+    this.openSnackBar("Comming Soon.")
   }
 
   scanQRCode(): void {
     console.log('Opening QR scanner...');
     // Implement QR code scanning logic
+    this.openSnackBar("Comming Soon.")
   }
 
 
-    openDialog(): void {
+  openDialog(): void {
 
 
+  }
+
+    openSnackBar(msg:string) {
+    this._snackBar.open(msg, 'close', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: 5 * 1000,
+    });
   }
 
 

@@ -27,7 +27,7 @@ export class MainComponent {
       label: 'Dashboard',
       icon: 'dashboard',
       route: '/main/dashboard',
-      roles: ['superAdmin', 'accounts', 'sales', 'maintenance', 'inventory'],
+      roles: ['superAdmin'],
       tag: 'Welcome Back! Here is an overview of your business operations'
     },
     {
@@ -80,6 +80,17 @@ export class MainComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
         this.currentUser = user;
+        console.log(user);
+        let isRedirect = 0;
+        this.menuItems.forEach(menus=>{
+          if(menus.roles.includes(user?.role!) && isRedirect ==0 ){
+            console.log("wo")
+            this.router.navigateByUrl(menus.route);
+            this.activeMenuItem = menus.id; 
+            isRedirect = 1;
+          }
+        })
+
       });
 
   }

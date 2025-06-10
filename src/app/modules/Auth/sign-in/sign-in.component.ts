@@ -87,6 +87,8 @@ export class SignInComponent {
           console.log('Login successful');
           delete this.users[index].password;
           this.auth.setUser(this.users[index]);
+          localStorage.setItem('loginDetails', JSON.stringify(this.users[index]));
+          console.log(this.users[index]);
           this.router.navigate(['/main']);
         } else {
           this.errorMessage = 'Invalid email or password';

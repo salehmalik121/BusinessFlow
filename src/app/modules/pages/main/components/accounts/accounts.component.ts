@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import type { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { DataSharingService } from '../../../../../services/data-sharing.service';
+import { MatDialog } from '@angular/material/dialog';
+import { GenerateInvoiceComponent } from '../../../../componants/generate-invoice/generate-invoice.component';
 
 
 
@@ -14,6 +16,9 @@ import { DataSharingService } from '../../../../../services/data-sharing.service
   styleUrl: './accounts.component.css'
 })
 export class AccountsComponent {
+
+  readonly dialog = inject(MatDialog)
+
   accountMetrics: Array<any> = [
     {
       title: 'Outstanding Invoices',
@@ -84,6 +89,9 @@ export class AccountsComponent {
   generateInvoice(): void {
     console.log('Generating new invoice...');
     // Implement invoice generation logic
+    const dialogRef = this.dialog.open(GenerateInvoiceComponent, {
+      
+    });
   }
 
   viewInvoice(invoice: any): void {

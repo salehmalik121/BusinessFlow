@@ -26,12 +26,8 @@ export class AuthService {
 
   constructor() {
     // Mock user - replace with actual authentication
-    this.setUser({
-      id: 1,
-      name: 'John Doe',
-      email: 'john@example.com',
-      role: 'accounts' // Change this to test different roles
-    });
+    let userData= JSON.parse(localStorage.getItem('loginDetails')!) as User;
+    this.setUser(userData);
   }
 
   setUser(user: User): void {
@@ -53,6 +49,7 @@ export class AuthService {
   }
 
   logout(): void {
+    localStorage.removeItem('loginDetails')
     this.currentUserSubject.next(null);
   }
 }

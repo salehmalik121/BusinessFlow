@@ -150,7 +150,7 @@ export class DataSharingService {
 
   AddInvoice(item:any){
     const currentValues = this.invoices.getValue();
-    this.items.next([...currentValues , item])
+    this.invoices.next([...currentValues , item])
   }
 
   

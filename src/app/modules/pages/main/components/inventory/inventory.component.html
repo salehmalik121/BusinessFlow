@@ -16,7 +16,7 @@
         </div>
         
         <div class="stat-card value">
-          <div class="stat-number">\${{ stats.totalValue.toLocaleString() }}</div>
+          <div class="stat-number">${{ stats.totalValue.toLocaleString() }}</div>
           <div class="stat-label">Total Value</div>
           <div class="stat-sublabel">Current stock value</div>
         </div>
@@ -84,7 +84,7 @@
               <div class="cell">{{ item.description }}</div>
               <div class="cell">{{ item.location }}</div>
               <div class="cell">{{ item.stock }}</div>
-              <div class="cell">\${{ item.unitCost.toFixed(2) }}</div>
+              <div class="cell">${{ item.unitCost.toFixed(2) }}</div>
               <div class="cell">
                 <span class="status-badge" [ngClass]="'status-' + item.status">
                   <span class="status-dot"></span>

@@ -1,1 +1,45 @@
-<p>generate-invoice works!</p>
+
+<mat-dialog-content>
+        <div class="create-quote-section">
+        <h2>Generate New Invoice</h2>
+        <div class="quote-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>School/Client</label>
+              <select class="form-control" [(ngModel)]="newInvoice.school">
+                <option value="">Select School</option>
+                <option value="GEMS Dubai American Academy">GEMS Dubai American Academy</option>
+                <option value="GEMS International School">GEMS International School</option>
+                <option value="Sunset Middle School">Sunset Middle School</option>
+                <option value="Mountain View Elementary">Mountain View Elementary</option>
+              </select>
+            </div>
+            <div class="form-group">
+                <mat-form-field class="date-picker">
+                <mat-label>Choose due date</mat-label>
+                <input matInput [matDatepicker]="picker" [(ngModel)] = "newInvoice.date">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="form-group">
+              <label>Invoice Amount</label>
+              <input 
+                type="number" 
+                class="form-control" 
+                [(ngModel)]="newInvoice.amount" 
+                placeholder="0.00"
+                step="0.01"
+              >
+            </div>
+            <div class="form-group">
+              <button class="create-btn" (click)="createInvoice()" [disabled]="!isFormValid()">
+                Create Quote
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+</mat-dialog-actions>
