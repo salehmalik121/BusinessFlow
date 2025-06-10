@@ -1,0 +1,62 @@
+    <div class="issues-dashboard">
+      <!-- School Status Cards -->
+      <div class="school-cards">
+        <div 
+          *ngFor="let school of schools" 
+          class="school-card"
+          [ngClass]="'status-' + school.status"
+        >
+          <div class="school-header">
+            <h3>{{ school.name }}</h3>
+            <span class="active-issues">{{ school.activeIssues }} active issues</span>
+          </div>
+          <div class="status-badge" [ngClass]="'badge-' + school.status">
+            {{ school.statusText }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Issues Section -->
+      <div class="recent-issues">
+        <div class="section-header">
+          <h2>Recent Issues</h2>
+          <button class="report-btn">Report Issue</button>
+        </div>
+
+        <div class="issues-table">
+          <div class="table-header">
+            <div class="header-cell">ISSUE ID</div>
+            <div class="header-cell">SCHOOL</div>
+            <div class="header-cell">DESCRIPTION</div>
+            <div class="header-cell">PRIORITY</div>
+            <div class="header-cell">STATUS</div>
+            <div class="header-cell">ACTIONS</div>
+          </div>
+
+          <div class="table-body">
+            <div *ngFor="let issue of issues; let i = index" class="table-row">
+              <div class="cell">{{ issue.id }}</div>
+              <div class="cell">{{ issue.school }}</div>
+              <div class="cell">{{ issue.description }}</div>
+              <div class="cell">
+                <span class="priority-badge" [ngClass]="'priority-' + issue.priority"></span>
+              </div>
+              <div class="cell">
+                <span class="status-badge" [ngClass]="'status-' + issue.status">
+                  {{ issue.status | titlecase }}
+                </span>
+              </div>
+              <div class="cell actions">
+                <span *ngFor="let action of issue.actions;" 
+                      class="action-link"
+                      [ngClass]="action.toLowerCase()" 
+                      (click)="actionPressed(action , i)"
+                      >
+                 {{ action }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

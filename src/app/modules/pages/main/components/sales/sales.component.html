@@ -1,0 +1,100 @@
+    <div class="sales-container">
+      <!-- Metrics Cards -->
+      <div class="metrics-grid">
+        <div class="metric-card" *ngFor="let metric of salesMetrics" [ngClass]="'metric-' + metric.color">
+          <h3>{{ metric.title }}</h3>
+          <div class="metric-value">{{ metric.value }}</div>
+          <div class="metric-subtitle">{{ metric.subtitle }}</div>
+          <div class="progress-bar" *ngIf="metric.progress">
+            <div class="progress-fill" [ngClass]="'progress-' + metric.color" [style.width.%]="metric.progress"></div>
+          </div>
+          <div class="progress-text" *ngIf="metric.progress && metric.color === 'green'">
+            $78,000 of $100,000
+          </div>
+        </div>
+      </div>
+
+      <!-- Create New Quote Section -->
+      <div class="create-quote-section">
+        <h2>Create New Quote</h2>
+        <div class="quote-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>School/Client</label>
+              <select class="form-control" [(ngModel)]="newQuote.school">
+                <option value="">Select School</option>
+                <option value="GEMS Dubai American Academy">GEMS Dubai American Academy</option>
+                <option value="GEMS International School">GEMS International School</option>
+                <option value="Sunset Middle School">Sunset Middle School</option>
+                <option value="Mountain View Elementary">Mountain View Elementary</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Service Type</label>
+              <select class="form-control" [(ngModel)]="newQuote.service">
+                <option value="">Select Service</option>
+                <option value="LED Lighting">LED Lighting</option>
+                <option value="Security Systems">Security Systems</option>
+                <option value="HVAC Installation">HVAC Installation</option>
+                <option value="Electrical Maintenance">Electrical Maintenance</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Quote Amount</label>
+              <input 
+                type="number" 
+                class="form-control" 
+                [(ngModel)]="newQuote.amount" 
+                placeholder="0.00"
+                step="0.01"
+              >
+            </div>
+            <div class="form-group">
+              <button class="create-btn" (click)="createQuote()" [disabled]="!isFormValid()">
+                Create Quote
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Quotes Section -->
+      <div class="quotes-section">
+        <h2>Active Quotes</h2>
+        
+        <div class="quotes-table">
+          <div class="table-header">
+            <div class="col-quote">QUOTE #</div>
+            <div class="col-school">SCHOOL</div>
+            <div class="col-service">SERVICE</div>
+            <div class="col-amount">AMOUNT</div>
+            <div class="col-status">STATUS</div>
+            <div class="col-actions">ACTIONS</div>
+          </div>
+
+          <div class="table-row" *ngFor="let quote of activeQuotes">
+            <div class="col-quote">{{ quote.quoteNumber }}</div>
+            <div class="col-school">{{ quote.school }}</div>
+            <div class="col-service">{{ quote.service }}</div>
+            <div class="col-amount">${{ quote.amount.toLocaleString() }}</div>
+            <div class="col-status">
+              <span class="status-badge" [ngClass]="'status-' + quote.status">
+                {{ quote.status | titlecase }}
+              </span>
+            </div>
+            <div class="col-actions">
+              <button class="action-btn accept" (click)="acceptQuote(quote)" *ngIf="quote.status === 'pending'">
+                Accept
+              </button>
+              <button class="action-btn reject" (click)="rejectQuote(quote)" *ngIf="quote.status === 'pending'">
+                Reject
+              </button>
+              <button class="action-link" (click)="viewQuote(quote)">View</button>
+              <button class="action-link" (click)="createInvoice(quote)" *ngIf="quote.status === 'approved'">
+                Create Invoice
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

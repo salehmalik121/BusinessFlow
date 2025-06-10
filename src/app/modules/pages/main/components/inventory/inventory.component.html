@@ -1,0 +1,114 @@
+    <div class="inventory-dashboard">
+
+
+      <!-- Statistics Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">{{ stats.totalItems }}</div>
+          <div class="stat-label">Total Items</div>
+          <div class="stat-sublabel">Across all locations</div>
+        </div>
+        
+        <div class="stat-card alert">
+          <div class="stat-number">{{ stats.lowStockAlerts }}</div>
+          <div class="stat-label">Low Stock Alerts</div>
+          <div class="stat-sublabel">Items need reordering</div>
+        </div>
+        
+        <div class="stat-card value">
+          <div class="stat-number">\${{ stats.totalValue.toLocaleString() }}</div>
+          <div class="stat-label">Total Value</div>
+          <div class="stat-sublabel">Current stock value</div>
+        </div>
+        
+        <div class="stat-card hold">
+          <div class="stat-number">{{ stats.onHold }}</div>
+          <div class="stat-label">On Hold</div>
+          <div class="stat-sublabel">Items reserved</div>
+        </div>
+      </div>
+
+      <!-- QR Scanner and Quick Actions -->
+      <div class="action-section">
+        <div class="qr-scanner-section">
+          <h3>QR Code Scanner</h3>
+          <div class="qr-scanner-container">
+            <div class="qr-scanner-placeholder">
+              <div class="scanner-icon">📱</div>
+            </div>
+            <button class="scan-btn" (click)="scanQRCode()">Scan QR Code</button>
+            <p class="scan-instruction">Scan item QR code to view details</p>
+          </div>
+        </div>
+
+        <div class="quick-actions-section">
+          <h3>Quick Actions</h3>
+          <div class="action-buttons">
+            <button class="action-btn primary" (click)="addItem()">Add Item</button>
+            <button class="action-btn secondary" (click)="transfer()">Transfer</button>
+            <button class="action-btn secondary" (click)="reorder()">Reorder</button>
+            <button class="action-btn secondary" (click)="reports()">Reports</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inventory Items Table -->
+      <div class="inventory-table-section">
+        <div class="table-header">
+          <h2>Inventory Items</h2>
+          <div class="table-controls">
+            <select class="location-filter">
+              <option>All Locations</option>
+              <option>Riverside High School</option>
+              <option>Warehouse</option>
+              <option>Mountain View Elementary</option>
+            </select>
+            <button class="filter-btn">Filter</button>
+          </div>
+        </div>
+
+        <div class="inventory-table">
+          <div class="table-header-row">
+            <div class="header-cell">ITEM CODE</div>
+            <div class="header-cell">DESCRIPTION</div>
+            <div class="header-cell">LOCATION</div>
+            <div class="header-cell">STOCK</div>
+            <div class="header-cell">UNIT COST</div>
+            <div class="header-cell">STATUS</div>
+            <div class="header-cell">ACTIONS</div>
+          </div>
+
+          <div class="table-body">
+            <div *ngFor="let item of inventoryItems" class="table-row">
+              <div class="cell">{{ item.itemCode }}</div>
+              <div class="cell">{{ item.description }}</div>
+              <div class="cell">{{ item.location }}</div>
+              <div class="cell">{{ item.stock }}</div>
+              <div class="cell">\${{ item.unitCost.toFixed(2) }}</div>
+              <div class="cell">
+                <span class="status-badge" [ngClass]="'status-' + item.status">
+                  <span class="status-dot"></span>
+                </span>
+              </div>
+              <div class="cell actions">
+                <span *ngFor="let action of item.actions; let i = index" 
+                      class="action-link"
+                      [ngClass]="action.toLowerCase().replace(' ', '-')"
+                      (click)="performAction(action, item)">
+                  {{ action }}
+                  <span *ngIf="i < item.actions.length - 1" class="action-separator">|</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- QR Code Display -->
+        <div class="qr-display" *ngIf="showQRCode">
+          <div class="qr-info">
+            <strong>QR Code</strong><br>
+            QR Code for item {{ selectedItem }} would be displayed here
+          </div>
+        </div>
+      </div>
+    </div>

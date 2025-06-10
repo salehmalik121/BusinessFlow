@@ -1,0 +1,83 @@
+<div class="home-container">
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
+    <div class="sidebar-header">
+      <div class="logo" *ngIf="!isSidebarCollapsed">
+        <h2>HMR</h2>
+      </div>
+      <div class="logo-collapsed" *ngIf="isSidebarCollapsed">
+        <span>HMR</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul class="nav-list">
+        <li 
+          *ngFor="let item of visibleMenuItems" 
+          class="nav-item"
+          [class.active]="activeMenuItem === item.id"
+        >
+          <button 
+            class="nav-link"
+            (click)="navigateTo(item)"
+            [title]="item.label"
+          >
+            <span class="nav-icon material-icons">{{ item.icon }}</span>
+            <span class="nav-text" *ngIf="!isSidebarCollapsed">{{ item.label }}</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info" *ngIf="currentUser">
+        <div class="user-avatar">
+          <span>{{ currentUser.name.charAt(0) }}</span>
+        </div>
+        <div class="user-details" *ngIf="!isSidebarCollapsed">
+          <div class="user-name">{{ currentUser.name }}</div>
+          <div class="user-role">{{ getRoleDisplayName(currentUser.role) }}</div>
+        </div>
+      </div>
+      <button 
+        class="logout-btn" 
+        (click)="onLogout()"
+        [title]="'Logout'"
+      >
+        <span class="material-icons">logout</span>
+        <span *ngIf="!isSidebarCollapsed">Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Header -->
+    <header class="main-header">
+      <button class="sidebar-toggle" (click)="toggleSidebar()">
+        <span class="material-icons">menu</span>
+      </button>
+      <div class="page-title">
+        {{ activeMenuItem | titlecase }}
+        <p class="tag-line">{{tag}}</p>
+
+      </div>
+      
+      <div class="header-actions">
+        <button class="notification-btn">
+          <span class="material-icons">notifications</span>
+          <span class="notification-badge">3</span>
+        </button>
+        <div class="user-menu" *ngIf="currentUser">
+          <span class="welcome-text">Welcome, {{ currentUser.name }}</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
+
